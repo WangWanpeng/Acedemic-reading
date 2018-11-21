@@ -3,6 +3,7 @@
 		- [1. Problem Setting](#1-problem-setting)
 		- [2. Stochastic dynamic model](#2-stochastic-dynamic-model)
 		- [3. Base stock policy](#3-base-stock-policy)
+		- [4. Computing $y^\ast$](#4-computing-yast)
 
 <!-- /TOC -->
 
@@ -67,6 +68,24 @@ $$
 &V_{n+1}\big((\lambda y_1+\overline{\lambda}y_2-D)^+,~~p\min\{\lambda y_1+\overline{\lambda}y_2, D_n\}+\dots\big)\\
 =&V_{n+1}\big(\lambda y_1+\overline{\lambda}y_2-\min\{\lambda y_1+\overline{\lambda}y_2, D_n\},~~p\min\{\lambda y_1+\overline{\lambda}y_2, D_n\}+\dots\big)\\
 \geq &V_{n+1}\big(\lambda y_1+\overline{\lambda}y_2-\lambda\min\{y_1, D_n\} -\overline{\lambda}\{y_2, D_n\},~~\lambda p\min\{ y_1, D_n\}+\overline{\lambda}p\{y_2, D_n\}+\dots\big)\\
-\geq &\lambda V_{n+1}((y1-D_n)^+, p\min\{y, D_n\})+
-\end{aligned}
+\geq &\lambda V_{n+1}\big((y_1-D_n)^+, p\min\{y_1, D_n\}^+\big)+\overline{\lambda}V_{n+1}\big((y_2-D_n)^+, p\min\{y_2, D_n\}^+\big)
+\end{aligned}\\
+\hspace 350pt\Box
 $$
+The first inequality follows from Lemma 2, and the second inequality follows from the concavity of $V_{n+1}$.
+
+**Theorem 1**. By the concavity of optimality equation, with fixed $S$, there exits an optimal base-stock level $y^\ast(S)$, the optimal ordering policy is:
+* if $y^\ast\geq x+S/c$, use up all the cash to order.
+* if $y^\ast< x+S/c$ and $x<y^\ast$, order up to $y^{\ast}$.
+* if $x\geq y^\ast$, do not order.
+
+### 4. Computing $y^\ast$
+Although the optimal policy for this problem is clear, how to compute the value of inventory controlling paramter $y^\ast$ is also important. Since optimality equation is complex, we should try to separate $y$ and $R$. Define another recursive equation:
+$$
+\begin{cases}
+G_n(y)&= (1+d)^{N-n}\big[(p-c)\min\{y, D\}-dcy\big]+G_{n+1}(\max\{(y-D)^+, a_{n+1}^\ast\})\\
+G_{N+1}(y)&=(\gamma-c)y &
+\end{cases}
+$$
+
+This equation can be viewed as the expected cash increment for period $n$ without cash constraint. $a^{\ast}_n$ is the optimal $y$ for $G_n(y)$ and $a^{\ast}_{N+1}=0$. We can get a property for $a^\ast_n$.
