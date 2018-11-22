@@ -3,7 +3,8 @@
 		- [1. Problem Setting](#1-problem-setting)
 		- [2. Stochastic dynamic model](#2-stochastic-dynamic-model)
 		- [3. Base stock policy](#3-base-stock-policy)
-		- [4. Computing $y^\ast$](#4-computing-yast)
+		- [4. Boundary for  $a^\ast$](#4-boundary-for-aast)
+		- [5. Separating $S$ and $y$.](#5-separating-s-and-y)
 
 <!-- /TOC -->
 
@@ -40,7 +41,7 @@ $$
 
 Optimality equation: define $V_n(x, S)$ as the maximum expected terminal cash for period $n$ given intial cash $S$ and initial inventory $x$.
 $$
-V_n(x,S)=\max_{x\leq y\leq x+S/c} V_{n+1}\big((y-D)^+, S+p\min\{y, D_n\}+(1+d)(S-c(y-x))\big)
+V_n(x,S)=\max_{x\leq y\leq x+S/c} V_{n+1}\big((y-D)^+, p\min\{y, D_n\}+(1+d)(S-c(y-x))\big)
 $$
 
 Boundary condition:
@@ -79,7 +80,7 @@ The first inequality follows from Lemma 2, and the second inequality follows fro
 * if $y^\ast< x+S/c$ and $x<y^\ast$, order up to $y^{\ast}$.
 * if $x\geq y^\ast$, do not order.
 
-### 4. Computing $y^\ast$
+### 4. Boundary for  $a^\ast$
 Although the optimal policy for this problem is clear, how to compute the value of inventory controlling paramter $y^\ast$ is also important. Since optimality equation is complex, we should try to separate $y$ and $R$. Define another recursive equation:
 $$
 \begin{cases}
@@ -88,4 +89,49 @@ G_{N+1}(y)&=(\gamma-c)y &
 \end{cases}
 $$
 
-This equation can be viewed as the expected cash increment for period $n$ without cash constraint. $a^{\ast}_n$ is the optimal $y$ for $G_n(y)$ and $a^{\ast}_{N+1}=0$. We can get a property for $a^\ast_n$.
+**This equation can be viewed as the expected cash increment for period $n$ without cash constraint**. $a^{\ast}_n$ is the optimal $y$ for $G_n(y)$ and $a^{\ast}_{N+1}=0$. We can get a property for $a^\ast_n$.
+
+When $n=N$,
+$$
+G_N(y)=(p-c)\min\{y, D\}-dcy+(\gamma-c)y
+$$
+
+It is concave. Threfore, $a^\ast_N=F^-(\frac{p-(1+d)c}{p-\gamma})$.
+
+Try to get the first derivative of $G_n(y)$:
+$$
+G'_n(y)=\frac{\partial G_n(y)}{\partial y}=(1+d)^{N-n}\big[(p-c-dc)-(p-c)F(y)\big]+G_{n+1}'(y-D)\Pr(y-D\geq a^\ast_{n+1})
+$$
+
+Second derivative of $G_n(y)$ is:
+$$
+\frac{\partial^2 G_n(y)}{\partial^2 y}=-(p-c)f(y)+G_{n+1}''(y-D)\Pr(y-D\geq a^\ast_{n+1})
+$$
+
+Assume $G''_{n+1}$ is concave, $G_n(y)$ is concave by induction. When $y=a^\ast_{n+1}$, $G'_n(y)>0$. So, $a_n^\ast>a_{n+1}^\ast$. When $y=F^-(\frac{p-(1+d)c}{p-c})$, the first term of $G'_n(y)$ is zero, while the second term is always non-positive. So $a^\ast_n\leq F^-(\frac{p-(1+d)c}{p-c})$. By induction, we can get:
+$$
+F^-(\frac{p-(1+d)c}{p-c})\geq a_1^\ast\geq\dots\geq a_N^\ast=F^-(\frac{p-(1+d)c}{p-\gamma})
+$$
+
+### 5. Separating $S$ and $y$.
+
+In order to compute $S^\ast$, we must separate $S$ and $y$ in the optimality equation. The most finding in this paper is:
+
+**Theorem 2**. When $S\geq c(a^\ast-x)$ and $y\leq x+S/c$, the optimality euqation can be decomposed as:
+$$
+V_n(x, S)=(1+d)^{N-n+1}(S+cx)+G_n(y)
+$$
+
+*Proof*:<br> By induction. When $n=N$,
+$$
+\begin{aligned}
+V_N(x, S)=& p\min\{y, D\}+(1+d)(S-c(y-x))+\gamma (y-D)^+\\
+=& (p-c)\min\{y, D\}+(1+d)(S+cx)-dcy+(\gamma-c)y\\
+=& (1+d)(S+cx)+G_N(y)
+\end{aligned}
+$$
+
+So Theorem 2 is valid for $N$. Assume it is valid for $n+1$, now we prove for $n$.
+$$
+V_n(x, S)=
+$$
