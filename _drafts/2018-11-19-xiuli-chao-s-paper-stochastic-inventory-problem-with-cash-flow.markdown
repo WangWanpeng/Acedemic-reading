@@ -41,7 +41,7 @@ $$
 
 Optimality equation: define $V_n(x, S)$ as the maximum expected terminal cash for period $n$ given intial cash $S$ and initial inventory $x$.
 $$
-V_n(x,S)=\max_{x\leq y\leq x+S/c} V_{n+1}\big((y-D)^+, p\min\{y, D_n\}+(1+d)(S-c(y-x))\big)
+V_n(x,S)=\max_{x\leq y\leq x+S/c} E\left\{V_{n+1}\big((y-D)^+, p\min\{y, D_n\}+(1+d)(S-c(y-x))\big)\right\}
 $$
 
 Boundary condition:
@@ -117,21 +117,82 @@ $$
 
 In order to compute $S^\ast$, we must separate $S$ and $y$ in the optimality equation. The most finding in this paper is:
 
-**Theorem 2**. When $S\geq c(a^\ast-x)$ and $y\leq x+S/c$, the optimality euqation can be decomposed as:
+**Theorem 2**.
+* When $S\geq c(a_{n+1}^\ast-x)$ and $y\leq x+S/c$, the optimality euqation can be decomposed as:
+*
 $$
-V_n(x, S)=(1+d)^{N-n+1}(S+cx)+G_n(y)
+\pi_n(y, S)=(1+d)^{N-n+1}(S+cx)+G_n(y)
 $$
+* if $S\geq c(a_n^\ast-x)$, then $y_n^\ast(S)=a_n^\ast$; if $S<c(a_n^\ast-x)$, $y_n^\ast(S)>x+S/c$.
 
 *Proof*:<br> By induction. When $n=N$,
 $$
 \begin{aligned}
-V_N(x, S)=& p\min\{y, D\}+(1+d)(S-c(y-x))+\gamma (y-D)^+\\
+\pi_N(x, S)=& p\min\{y, D\}+(1+d)(S-c(y-x))+\gamma (y-D)^+\\
 =& (p-c)\min\{y, D\}+(1+d)(S+cx)-dcy+(\gamma-c)y\\
 =& (1+d)(S+cx)+G_N(y)
 \end{aligned}
 $$
 
-So Theorem 2 is valid for $N$. Assume it is valid for $n+1$, now we prove for $n$.
+So Theorem 2 is valid for $N$. Assume it is valid for $n+1$, now we prove for $n$. For easiness, define another equaiton
 $$
-V_n(x, S)=
+\pi_n(y, S)=E\left\{V_{n+1}\big((y-D)^+, p\min\{y, D_n\}+(1+d)(S-c(y-x))\big)\right\}
 $$
+
+Therefore,
+$$
+V_n(x, S)=\max_{x\leq y\leq x+S/c}\pi_n(y, S)
+$$
+$$
+V_{n+1}(x, S)=\max_{x\leq y\leq x+S/c}\pi_{n+1}(y, S)
+$$
+
+$\pi_n(y, S)$ is also jointly concave. By Theorem 1,
+$$
+V_{n+1}(x, S)=\begin{cases}
+\pi_{n+1}(S/c+x, S)\quad &x+S/c< y_{n+1}^\ast(S), \\
+\pi_{n+1}(y^\ast, S) & x<y_{n+1}^\ast(S)\leq x+S/c\\
+\pi_{n+1}(x, S) &x\geq y_{n+1}^\ast(S)
+\end{cases}
+$$
+
+By the inducting assumption,
+
+(a) if $S\geq 0\geq c(a^\ast_{n+1}-x)$, then $y_{n+1}^\ast(S)=a_{n+1}^\ast$ and $x\geq a_{n+1}^\ast$, so
+$$V_{n+1}(x, S)=\pi_{n+1}(x, S)=(1+d)^{N-n+1}(S+cx)+G_n(x)$$
+
+(b) if $S\geq c(a^\ast_{n+1}-x)\geq 0$, then $y_{n+1}^\ast(S)=a_{n+1}^\ast$,
+$$V_{n+1}(x, S)=\pi_{n+1}(y^\ast, S)=(1+d)^{N-n+1}(S+cx)+G_n(y^\ast)$$
+
+(c)  if $c(a^\ast_{n+2}-x)\leq S<c(a^\ast_{n+1}-x)$, then $y^\ast>x+S/c$,
+$$V_{n+1}(x, S)=\pi_{n+1}(S/c+x, S)=(1+d)^{N-n+1}(S+cx)+G_n(S/c+x)$$
+
+(d) if $S<c(a^\ast_{n+2}-x)$, then $y^\ast>x+S/c$
+$$V_{n+1}(x, S)=\pi_{n+1}(S/c+x, S)$$
+
+Rewrite the cases as follows,
+$$
+V_{n+1}(x, S)=\begin{cases}
+\pi_{n+1}(S/c+x, S)\quad & S+cx<ca^\ast_{n+2}\\
+(1+d)^{N-n}(S+cx)+G_n(S/c+x) & ca^\ast_{n+2}\leq S+cx<ca^\ast_{n+1}\\
+(1+d)^{N-n}(S+cx)+G_n(x) &ca^\ast_{n+1}\leq cx\leq S+cx\\
+(1+d)^{N-n}(S+cx)+G_n(a_{n+1}^\ast) &cx\leq ca^\ast_{n+1}\leq S+cx
+\end{cases}
+$$
+
+Therefore, when $S+cx>ca^\ast_{n+1}$ and $y\leq x+S/c$,
+$$V_{n+1}(x,S)=(1+d)^{N-n+1}(S+cx)+G_n(\max\{x, a_{n+1}^\ast\})$$
+
+So, when $S+cx>ca^\ast_{n+1}$, $p\min\{y, D\}+(1+d)(S+cx)-dcy\geq ca^\ast_{n+1}$
+$$
+\begin{aligned}
+\pi_{n}(x, S)=&E\{V_{n+1}((y-D)^+, p\min\{y, D\}+(1+d)(S+cx)-dcy\}\\
+=& (1+d)^{N-n}\big[p\min\{y, D\}+(1+d)(S+cx)-dcy\big]+G_n(\max\{(y-D)^+, a_{n+1}^\ast\})\\
+=& (1+d)^{N-n+1}(S+cx)+(1+d)^{N-n}\big[p\min\{y,D\}-dcy\big]+G_n(\max\{(y-D)^+, a_{n+1}^\ast\})\\
+=& (1+d)^{N-n+1}(S+cx)+G_n(y)
+\end{aligned}
+$$
+
+And, when $S+cx\geq ca^\ast_{n+1}$, $y^\ast=S/c+x$.
+
+Now, let's prove that when $S+cx\leq ca^\ast_{n+1}$, $y^\ast=S/c+x$.
