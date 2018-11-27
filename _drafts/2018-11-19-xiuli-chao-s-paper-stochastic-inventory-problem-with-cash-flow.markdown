@@ -134,9 +134,12 @@ $$
 \end{aligned}
 $$
 
-So Theorem 2 is valid for $N$. Assume it is valid for $n+1$, now we prove for $n$. For easiness, define another equaiton
+So Theorem 2 is valid for $N$. Assume it is valid for $n+1$, now we prove for $n$. For easiness, let $R=S+cx$ and define another equaiton
 $$
-\pi_n(y, S)=E\left\{V_{n+1}\big((y-D)^+, p\min\{y, D_n\}+(1+d)(S-c(y-x))\big)\right\}
+\begin{aligned}
+\tilde{V}_n(x,R)=&V_n(x, R-cx)\\
+=&\max_{x\leq y\leq R/c}E\left\{V_{n+1}\big((y-D)^+, p\min\{y, D_n\}+(1+d)(S-c(y-x))\big)\right\}
+\end{aligned}
 $$
 
 Therefore,
@@ -186,13 +189,28 @@ $$V_{n+1}(x,S)=(1+d)^{N-n+1}(S+cx)+G_n(\max\{x, a_{n+1}^\ast\})$$
 So, when $S+cx>ca^\ast_{n+1}$, $p\min\{y, D\}+(1+d)(S+cx)-dcy\geq ca^\ast_{n+1}$
 $$
 \begin{aligned}
-\pi_{n}(x, S)=&E\{V_{n+1}((y-D)^+, p\min\{y, D\}+(1+d)(S+cx)-dcy\}\\
-=& (1+d)^{N-n}\big[p\min\{y, D\}+(1+d)(S+cx)-dcy\big]+G_n(\max\{(y-D)^+, a_{n+1}^\ast\})\\
-=& (1+d)^{N-n+1}(S+cx)+(1+d)^{N-n}\big[p\min\{y,D\}-dcy\big]+G_n(\max\{(y-D)^+, a_{n+1}^\ast\})\\
+\pi_{n}(x, S)=&E\{V_{n+1}((y-D)^+, p\min\{y, D\}+(1+d)(S+cx)-(1+d)cy\}\\
+=& (1+d)^{N-n}\big[p\min\{y, D\}+(1+d)(S+cx)-(1+d)cy\big]+G_n(\max\{(y-D)^+, a_{n+1}^\ast\})\\
+=& (1+d)^{N-n+1}(S+cx)+(1+d)^{N-n}\big[p\min\{y,D\}-(1+d)cy\big]+G_n(\max\{(y-D)^+, a_{n+1}^\ast\})\\
 =& (1+d)^{N-n+1}(S+cx)+G_n(y)
 \end{aligned}
 $$
 
 And, when $S+cx\geq ca^\ast_{n+1}$, $y^\ast=S/c+x$.
 
-Now, let's prove that when $S+cx\leq ca^\ast_{n+1}$, $y^\ast=S/c+x$.
+Now, **let's prove that when $S+cx\leq ca^\ast_{n+1}$, $y^\ast=S/c+x$**. We must prove this by its first derivative and adopting convexity. Let $R=S+cx$. Recall that
+$$
+\pi_n(y, S)=E\left\{V_{n+1}\big((y-D)^+, p\min\{y, D_n\}+(1+d)(S-c(y-x))\big)\right\}
+$$
+
+Let $V_{n,1}(x, R)$ and $V_{n,2}(x, R)$ represent the partial derivatives with respect to $x$ and $R$, respectively. So,
+$$
+\begin{aligned}
+\frac{\partial V_{n+1}(x, S)}{\partial y}
+=&
+\left[\int_0^y V_{n+1}()f(z)dz\right]'+\left[\int_y^\infty V_{n+1}()f(z)dz\right]'\\
+=& V_{n+1}()f(y)-V_{n+1}()f(y)+V_{n+1}'()F(y)+V'_{n+1}()(1-F(y))\\
+=& \int_0^y V_{n+1, 1}(y-z, pz+(1+d)(S-c(y-x))f(z)dz\\
+&+
+\end{aligned}
+$$
